@@ -1,0 +1,48 @@
+// Place all the styles related to the guest controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+section.jumbotron {
+    background-color: transparent; 
+    //background-image: url(Ten_percent_main_bg.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    border-radius: 0px;
+    height: 70vh;
+    
+    .container {
+      background-image: url(BannerScreen.png);
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 50vh;
+      height: 100%;
+      width: 100%;
+        
+      table {
+        height: 100%;
+        width: 100%;
+        color: #fff;
+      }
+    }
+    
+    .sing-up-btn {
+      margin-top: 20px;
+      margin-bottom: 10px;
+      background-color: rgba(0,0,0,0.8);
+      border: 2px solid #f921f9;
+      font-size: 16px;
+      border-radius: 30px;
+      width: 100%;
+      max-width: 400px;
+      color: #f921f9;
+      
+        &:hover {
+            background-color: #f921f9;
+            color: #fff;
+        }
+    }
+    
+}
+
