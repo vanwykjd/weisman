@@ -1,13 +1,10 @@
 import React from 'react'
 import { Layout } from 'antd'
-import Steps from './Steps'
-import StepContent from './StepContent'
+import Planform from './Planform'
 
 const SignUp = (props) => (
-  
   <Layout>
-    <Steps />
-    <StepContent />
+    <Planform />
   </Layout>
 )
 
