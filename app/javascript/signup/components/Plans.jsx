@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import PropTypes from 'prop-types'
 
 const Plan = ({ name, amount, onSelect }) => (
-  <div className='devise-form'>
+  <div>
     <table className="table table-dark">
         <thead>
           <tr>

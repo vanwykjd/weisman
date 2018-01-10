@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  devise_for :accounts, controllers: {
+      registrations: 'accounts/registrations',
+      confirmations: 'accounts/confirmations',
+    }
+  
+  devise_scope :account do
+    get 'sign_up', to: 'accounts/registrations#new', via: [:get]
+  end
+  
   get 'registration/index'
   match '*path' => 'registration#index', via: [ :get ]
 

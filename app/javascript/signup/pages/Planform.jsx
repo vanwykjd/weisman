@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import planData from './../data/plans';
-import { Button } from 'antd';
+import { Button, Icon, Form, Input } from 'antd';
 import Plan from './../components/Plans'
-
+const FormItem = Form.Item;
 
 class Planform extends Component { 
   constructor(props) {
      super(props);
      this.state = {
        plan: null,
-       step: 0
+       step: 0,
+       email: null,
+       password: null
      };
   }
   
@@ -25,9 +27,11 @@ class Planform extends Component {
     }
   }
   
+  
   render() {
+   
      return (
-      <section className='sign-up'>
+      <section>
         <div className='d-flex justify-content-center'>
           { planData.map( (plan) => 
     
@@ -41,7 +45,25 @@ class Planform extends Component {
          <div>{this.state.step}</div>
          <div>{this.state.plan}</div>
         </div>
+         
          <Button type="primary" onClick={() => this.addPlan()}>Continue</Button>
+         
+           <Form>
+              <FormItem>
+                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Email" />
+              </FormItem>
+              <FormItem>
+                <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+              </FormItem>
+              <FormItem>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                >
+                  Log in
+                </Button>
+              </FormItem>
+            </Form>
       </section>
      );
    }
