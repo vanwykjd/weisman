@@ -1,2 +1,2 @@
+export const ADD_TO_ACCOUNT = 'ADD_TO_ACCOUNT'
 export const SELECT_PLAN = 'SELECT_PLAN'
-export const LIST_PLANS = 'LIST_PLANS'
