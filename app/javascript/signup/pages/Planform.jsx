@@ -7,63 +7,47 @@ const FormItem = Form.Item;
 class Planform extends Component { 
   constructor(props) {
      super(props);
+     this.saveAndContinue = this.saveAndContinue.bind(this);
+     this.addPlan = this.addPlan.bind(this);
      this.state = {
-       plan: null,
-       step: 0,
-       email: null,
-       password: null
+       stepId: this.props.step,
+       planId: null
      };
   }
   
-  selectPlan(id) {
-    const plan = id;
-    this.setState({ plan });
+  addPlan(id) {
+    const planId = id;
+    this.setState({ planId });
   }
   
-  addPlan() {
-    const step = this.state.step + 1;
-    if (this.state.plan !== null && this.state.step < 1) {
-      this.setState({ step });
+  saveAndContinue(e) {
+    e.preventDefault()
+      this.props.plan(this.state.planId)
+      this.props.nextStep()
     }
-  }
   
+ 
   
   render() {
    
      return (
-      <section>
+      <section className='sign-up'>
         <div className='d-flex justify-content-center'>
           { planData.map( (plan) => 
     
             <Plan
               name={plan.name}
               amount={plan.amount}
-              onSelect={() => this.selectPlan(plan.id)}/>
+              onSelect={() => this.addPlan(plan.id)}/>
             )     
           }
          
-         <div>{this.state.step}</div>
-         <div>{this.state.plan}</div>
+         <div>{this.state.stepId}</div>
+         <div>{this.state.planId}</div>
         </div>
          
-         <Button type="primary" onClick={() => this.addPlan()}>Continue</Button>
+         <Button type="primary" onClick={this.saveAndContinue}>Continue</Button>
          
-           <Form>
-              <FormItem>
-                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Email" />
-              </FormItem>
-              <FormItem>
-                <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
-              </FormItem>
-              <FormItem>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                >
-                  Log in
-                </Button>
-              </FormItem>
-            </Form>
       </section>
      );
    }

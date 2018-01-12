@@ -1,71 +1,65 @@
 import React, { Component } from 'react';
-import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
-const FormItem = Form.Item;
-const Option = Select.Option;
-const AutoCompleteOption = AutoComplete.Option;
 
-class Registration extends Component { 
+class Registration extends React.Component {
   constructor(props) {
      super(props);
      this.state = {
-       email: null,
-       password: null,
-       password_conf: null
+       step: this.props.step,
+       plan: this.props.plan,
+       email: '',
+       password: '',
+       password_conf: ''
      };
+    
+     this.saveAndContinue = this.saveAndContinue.bind(this);
+     this.handleChange = this.handleChange.bind(this);
   }
- 
-   render() {
-     return (
-      <Form onSubmit={this.handleSubmit}>
-        <FormItem
-          {...formItemLayout}
-          label="E-mail"
-        >
-          {getFieldDecorator('email', {
-            rules: [{
-              type: 'email', message: 'The input is not valid E-mail!',
-            }, {
-              required: true, message: 'Please input your E-mail!',
-            }],
-          })(
-            <Input />
-          )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="Password"
-        >
-          {getFieldDecorator('password', {
-            rules: [{
-              required: true, message: 'Please input your password!',
-            }, {
-              validator: this.checkConfirm,
-            }],
-          })(
-            <Input type="password" />
-          )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="Confirm Password"
-        >
-          {getFieldDecorator('confirm', {
-            rules: [{
-              required: true, message: 'Please confirm your password!',
-            }, {
-              validator: this.checkPassword,
-            }],
-          })(
-            <Input type="password" onBlur={this.handleConfirmBlur} />
-          )}
-        </FormItem>
-         
-        <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">Register</Button>
-        </FormItem>
-      </Form>
+  
+  handleChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    
+    this.setState({
+      [name]: value
+    });
+  }
+  
+  saveAndContinue(e) {
+    e.preventDefault()
+      this.props.email(this.state.email)
+      this.props.password(this.state.password)
+      this.props.password_conf(this.state.password_conf)
+      this.props.nextStep()
+  }
+  
+  render() {
+    return (
+      <section className='sign-up text-center'>
+        <div className='devise-form'>
+          <div className='text-center form-header'>
+            <h5>Create your Barweiser account.</h5>
+          </div>
+          <form onSubmit={this.saveAndContinue}>
+            <div className='form-group'>
+              <input className='form-control' name='email' value={this.state.email} type='email' placeholder="email" onChange={this.handleChange}/>
+            </div>
+            <div className='form-group'>
+              <input className='form-control' name='password' value={this.state.password} type="password" placeholder="Password" onChange={this.handleChange}/>
+            </div>
+            <div className='form-group'>
+              <input className='form-control' name='password_conf' value={this.state.password_conf} type="password" placeholder="Password Confirmation" onChange={this.handleChange}/>
+            </div>
+            <div className='form-group'>
+              <input type="submit" value='Continue' className='btn sign-up-btn' onClick={this.saveAndContinue} />
+            </div>
+            <div>{this.state.plan}</div>
+            <div>{this.state.step}</div>
+          </form>
+        </div>
+      </section>
     );
   }
 }
 
-export default Registration;
+export default Registration
