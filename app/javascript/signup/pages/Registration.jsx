@@ -6,9 +6,9 @@ class Registration extends React.Component {
      this.state = {
        step: this.props.step,
        plan: this.props.plan,
-       email: '',
-       password: '',
-       password_conf: ''
+       email: this.props.email,
+       password: this.props.password,
+       password_conf: this.props.password_conf
      };
     
      this.saveAndContinue = this.saveAndContinue.bind(this);
@@ -35,29 +35,28 @@ class Registration extends React.Component {
   
   render() {
     return (
-      <section className='sign-up text-center'>
-        <div className='devise-form'>
-          <div className='text-center form-header'>
-            <h5>Create your Barweiser account.</h5>
-          </div>
-          <form onSubmit={this.saveAndContinue}>
-            <div className='form-group'>
-              <input className='form-control' name='email' value={this.state.email} type='email' placeholder="email" onChange={this.handleChange}/>
-            </div>
-            <div className='form-group'>
-              <input className='form-control' name='password' value={this.state.password} type="password" placeholder="Password" onChange={this.handleChange}/>
-            </div>
-            <div className='form-group'>
-              <input className='form-control' name='password_conf' value={this.state.password_conf} type="password" placeholder="Password Confirmation" onChange={this.handleChange}/>
-            </div>
-            <div className='form-group'>
-              <input type="submit" value='Continue' className='btn sign-up-btn' onClick={this.saveAndContinue} />
-            </div>
-            <div>{this.state.plan}</div>
-            <div>{this.state.step}</div>
-          </form>
+      <div className='devise-form'>
+        <div className='text-center form-header'>
+          <h5>Create your Barweiser account.</h5>
         </div>
-      </section>
+        <form onSubmit={this.saveAndContinue}>
+          <div className='form-group'>
+            <input className='form-control' name='email' value={this.state.email} type='email' placeholder="email" onChange={this.handleChange}/>
+          </div>
+          <div className='form-group'>
+            <input className='form-control' name='password' value={this.state.password} type="password" placeholder="Password" onChange={this.handleChange}/>
+          </div>
+          <div className='form-group'>
+            <input className='form-control' name='password_conf' value={this.state.password_conf} type="password" placeholder="Password Confirmation" onChange={this.handleChange}/>
+          </div>
+          <div className='form-group'>
+            <input type="primary" value='Continue' className='btn sign-up-btn' onClick={this.saveAndContinue} />
+            <input type="primary" value='Go Back' className='btn sign-up-btn' onClick={this.props.previousStep} />
+          </div>
+          <div>{JSON.stringify(this.state.plan)}</div>
+          <div>{this.state.step}</div>
+        </form>
+      </div>
     );
   }
 }

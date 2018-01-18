@@ -5,30 +5,25 @@ import PlanItem from './../components/PlanItem'
 import PlanList from './../components/PlanList'
 
 
-class Planform extends Component { 
+class EditPlanform extends Component { 
   constructor(props) {
      super(props);
+     this.saveAndContinue = this.saveAndContinue.bind(this);
      this.state = {
        step: this.props.step,
        plan: this.props.plan,
-       selectPlan: this.props.selectPlan
-     }
-     this.saveAndContinue = this.saveAndContinue.bind(this);
-     
+       email: this.props.email,
+       password: this.props.password,
+       password_conf: this.props.password_conf,
+     };
   }
-  
-  addPlan(plan) {
-    const planId = plan; 
-    this.setState({ plan: planId });
-  }
-  
   
   saveAndContinue(e) {
     e.preventDefault()
-      this.props.selectPlan(this.state.plan)
       this.props.nextStep()
-  }
+    }
   
+ 
   
   render() {
   
