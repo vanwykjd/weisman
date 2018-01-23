@@ -10,8 +10,7 @@ export default [{
   "metadata": {},
   "name": "Wise",
   "statement_descriptor": null,
-  "trial_period_days": null,
-  "selected": true
+  "trial_period_days": null
 }, {
   "id": "weiser",
   "object": "plan",
@@ -24,8 +23,7 @@ export default [{
   "metadata": {},
   "name": "Weiser",
   "statement_descriptor": null,
-  "trial_period_days": null,
-  "selected": true
+  "trial_period_days": null
 }, {
   "id": "wisest",
   "object": "plan",
@@ -38,8 +36,7 @@ export default [{
   "metadata": {},
   "name": "Wisest",
   "statement_descriptor": null,
-  "trial_period_days": null,
-  "selected": true
+  "trial_period_days": null
 }];
 
 

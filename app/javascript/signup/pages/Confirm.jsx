@@ -1,26 +1,22 @@
 import React, { Component } from 'react';
-import Plan from './../components/Plan'
+import Plan from './../components/Plan';
+import Card from './../components/Card';
 
 class Confirm extends Component { 
   constructor(props) {
      super(props);
-     
-     this.state = {
-       step: this.props.step,
-       plan: this.props.plan,
-       email: this.props.email,
-       password: this.props.password,
-       password_conf: this.props.password_conf
-     };
+     this.handleChange = this.handleChange.bind(this);
      this.saveAndContinue = this.saveAndContinue.bind(this);
+  }
+  
+  handleChange(e) {
+    this.props.paymentInput(e)
   }
   
   saveAndContinue(e) {
     e.preventDefault()
-      this.props.email(this.state.email)
-      this.props.password(this.state.password)
-      this.props.password_conf(this.state.password_conf)
       this.props.nextStep()
+      this.props.paymentInput(e)
   }
   
   render() {
@@ -29,18 +25,30 @@ class Confirm extends Component {
        <div className='planform-container'>
         <div className='d-flex justify-content-center'>
          <div className='devise-form' style={{display: 'inline-block'}}>
-           <Plan 
-                name={this.state.plan.id}
-                amount={this.state.plan.amount}/>
+            <Plan 
+                name={this.props.plan.name}
+                amount={this.props.plan.amount} />
+            <input type="primary" value='Edit' className='btn sign-up-btn' onClick={() => this.props.editStep(0)} />
          </div>
          <div className='devise-form' style={{display: 'inline-block'}}>
-            <div>{this.state.step}</div>
-            <div>{JSON.stringify(this.state.plan)}</div>
-            <div>{this.state.email}</div>
-            <div>{this.state.password}</div>
-            <div>{this.state.password_conf}</div>  
+            <div>{this.props.step}</div>
+            <div>{this.props.prevStep}</div>
+            <div>{this.props.email}</div>
+            <div>{this.props.password}</div>
+            <div>{this.props.password_conf}</div> 
+            <input type="primary" value='Edit' className='btn sign-up-btn' onClick={() => this.props.editStep(1)} />
          </div>
+         <div className='devise-form' style={{display: 'inline-block'}}>
+            <div className='text-center form-header'>
+              <h5>Enter your payment info.</h5>
+            </div>
+            <form onSubmit={this.saveAndContinue}>
+              <Card 
+                cardInfo={this.handleChange}
+                card={this.props.card} />
+            </form>
          </div>
+          </div>
             <div className='form-group'>
               <input type="primary" value='Go Back' className='btn sign-up-btn' onClick={this.props.previousStep} />
               <input type="primary" value='Continue' className='btn sign-up-btn' onClick={this.saveAndContinue} />

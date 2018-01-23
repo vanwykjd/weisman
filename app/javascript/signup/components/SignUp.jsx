@@ -10,84 +10,117 @@ class SignUp extends Component {
      super(props);
      this.state = ({
        step: 0,
+       prevStep: 0,
        plan: '',
        email: '',
        password: '',
        password_conf: '',
-       address: '',
-       card: '',
-       acct_id: ''
+       card: ({
+          number: 0,
+          exp_month: 0,
+          exp_year: 0,
+          cvc: 0
+       })
      });
      this.nextStep = this.nextStep.bind(this);
      this.previousStep = this.previousStep.bind(this);
-     this.selectPlan = this.selectPlan.bind(this);
-     this.setEmail = this.setEmail.bind(this);
-     this.setPassword = this.setPassword.bind(this);
-     this.setPassConf = this.setPassConf.bind(this); 
+     this.editStep = this.editStep.bind(this);
+     this.setPlan = this.setPlan.bind(this);
+     this.registrationInput = this.registrationInput.bind(this);
+     this.paymentInput = this.paymentInput.bind(this);
   }
   
-  selectPlan(selectedPlan) {
-    const plan = selectedPlan;
+  setPlan(plan) {
     this.setState({ plan });
-    console.log('Selected Plan', selectedPlan);
   }
   
-  setEmail(em) {
-    const email = em
-    this.setState({ email })
+  registrationInput(e) {
+    const value = e.target.value;
+    const name = e.target.name;
+    
+    this.setState({
+      [name]: value
+    });
   }
   
-  setPassword(pw) {
-    const password = pw
-    this.setState({ password })
-  }
-  
-  setPassConf(pwc) {
-    const password_conf = pwc
-    this.setState({ password_conf })
+  paymentInput(e) {
+    const value = e.target.value;
+    const name = e.target.name;
+    
+    this.setState({
+      card: {[name]: value}
+    });
   }
   
   nextStep() {
-    const step = this.state.step + 1;
-    this.setState({ step });
+    const currentStep = this.state.step;
+    const nextStep = this.state.step + 1;
+    const prevStep = this.state.prevStep;
+    
+    if (prevStep > currentStep) {
+      this.setState({ step: prevStep,
+                      prevStep: currentStep });
+    } else {
+      this.setState({ step: nextStep,
+                      prevStep: currentStep });
+    }
   }
   
   previousStep() {
     const step = this.state.step - 1;
-    this.setState({ step });
+    const prevStep = this.state.step;
+    this.setState({ step: step,
+                    prevStep: prevStep });
+  }
+  
+  editStep(step) {
+    const editStep = step;
+    const prevStep = this.state.step;
+    this.setState({ step: editStep,
+                    prevStep: prevStep });
   }
   
   
   render() {
+    const step = this.state.step;
+    const prevStep = this.state.prevStep;
+    const plan = this.state.plan;
+    const email = this.state.email;
+    const password = this.state.password;
+    const password_conf = this.state.password_conf;
+    const card = this.state.card;
     
 		switch (this.state.step) {
-			case 0 && !this.state.plan:
+			case 0:
 				return (<Planform 
-                 step={this.state.step}
-                 plan={this.state.plan}
-                 selectPlan={this.selectPlan}
-                 nextStep={this.nextStep}
-                 editStep={this.editStep}/>)
+                 step={step}
+                 prevStep={prevStep}
+                 plan={plan}
+                 setPlan={this.setPlan}
+                 nextStep={this.nextStep} />)
 			case 1:
 				return (<Registration
-                 step={this.state.step}
-                 plan={this.state.plan}
-                 email={this.setEmail}
-                 password={this.setPassword}
-                 password_conf={this.setPassConf}
+                 step={step}
+                 prevStep={prevStep}
+                 plan={plan}
+                 email={email}
+                 password={password}
+                 password_conf={password_conf}
+                 registrationInput={this.registrationInput}
                  nextStep={this.nextStep}
                  previousStep={this.previousStep}/>)
       case 2:
         return (<Confirm 
-                 step={this.state.step}
-                 plan={this.state.plan}
-                 email={this.state.email}
-                 password={this.state.password}
-                 password_conf={this.state.password_conf}
-                 address={this.setAddress}
-                 card={this.setCard}
-                 acct_id={this.setAcctId}
+                 step={step}
+                 prevStep={prevStep}
+                 plan={plan}
+                 email={email}
+                 password={password}
+                 password_conf={password_conf}
+                 card={card}
+                 paymentInput={this.paymentInput}
                  nextStep={this.nextStep}
+                 editStep={this.editStep}
                  previousStep={this.previousStep}/>)
       case 3:
         return (<Subscribe 
