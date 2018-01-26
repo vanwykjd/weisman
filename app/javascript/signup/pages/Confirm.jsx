@@ -1,26 +1,28 @@
 import React, { Component } from 'react';
 import Plan from './../components/Plan';
-import Card from './../components/Card';
+import PaymentForm from './../components/PaymentForm';
+import { Card } from './../components/PaymentForm';
 
 class Confirm extends Component { 
   constructor(props) {
      super(props);
-     this.handleChange = this.handleChange.bind(this);
+    
      this.saveAndContinue = this.saveAndContinue.bind(this);
   }
   
-  handleChange(e) {
-    this.props.paymentInput(e)
-  }
   
   saveAndContinue(e) {
+    const card = this.props.card;
+    
     e.preventDefault()
       this.props.nextStep()
-      this.props.paymentInput(e)
+      this.props.createCard(card)
   }
   
+  
   render() {
-   
+     const card = this.props.card;
+    
      return (
        <div className='planform-container'>
         <div className='d-flex justify-content-center'>
@@ -36,17 +38,16 @@ class Confirm extends Component {
             <div>{this.props.email}</div>
             <div>{this.props.password}</div>
             <div>{this.props.password_conf}</div> 
+            <div>{JSON.stringify(this.props.card)}</div>
             <input type="primary" value='Edit' className='btn sign-up-btn' onClick={() => this.props.editStep(1)} />
          </div>
          <div className='devise-form' style={{display: 'inline-block'}}>
             <div className='text-center form-header'>
               <h5>Enter your payment info.</h5>
             </div>
-            <form onSubmit={this.saveAndContinue}>
-              <Card 
-                cardInfo={this.handleChange}
-                card={this.props.card} />
-            </form>
+           <PaymentForm 
+              card={this.props.card}
+              createCard={this.props.createCard} />
          </div>
           </div>
             <div className='form-group'>

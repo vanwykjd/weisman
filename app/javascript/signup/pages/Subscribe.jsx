@@ -5,16 +5,6 @@ class Subscribe extends Component {
   constructor(props) {
      super(props);
      this.saveAndContinue = this.saveAndContinue.bind(this);
-     this.state = {
-       step: this.props.step,
-       plan: this.props.plan,
-       email: this.props.email,
-       password: this.props.password,
-       password_conf: this.props.password_conf,
-       address: this.props.address,
-       card: this.props.card,
-       acct_id: this.props.acct_id,
-     };
   }
   
   saveAndContinue(e) {
@@ -22,28 +12,25 @@ class Subscribe extends Component {
       this.props.nextStep()
   }
   
- 
-  
   render() {
    
      return (
         <div className='d-flex justify-content-center'>
          <div className='devise-form' style={{display: 'inline-block'}}>
            <Plan 
-                name={this.state.plan}
-                amount={this.state.amount}
-                onSelect={this.props(this.state.plan.id)}/>
+                name={this.props.plan.name}
+                amount={this.props.plan.amount} />
          </div>
          <div className='devise-form' style={{display: 'inline-block'}}>
-            <div>{this.state.step}</div>
-            <div>{this.state.plan}</div>
-            <div>{this.state.email}</div>
-            <div>{this.state.password}</div>
-            <div>{this.state.password_conf}</div> 
-            <div>{this.state.address}</div>
-            <div>{this.state.address}</div> 
-            <div>{this.state.card}</div>
-            <div>{this.state.acct_id}</div>
+            <div>Email: {this.props.email}</div>
+            <div>Password: {this.props.password}</div>
+            <div>Password Conf: {this.props.password_conf}</div> 
+            <div>Card: 
+              <div>Number: {this.props.card.number}</div>
+              <div>Exp Month: {this.props.card.exp_month}</div>
+              <div>Exp Year: {this.props.card.exp_year}</div>
+              <div>CVC: {this.props.card.cvc}</div>
+           </div>
          </div>
             <div className='form-group'>
               <input type="primary" value='Continue' className='btn sign-up-btn' onClick={this.saveAndContinue} />

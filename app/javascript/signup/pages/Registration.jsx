@@ -43,6 +43,7 @@ class Registration extends React.Component {
           <div>{JSON.stringify(this.props.plan)}</div>
           <div>{this.props.step}</div>
           <div>{this.props.prevStep}</div>
+          <div>{JSON.stringify(this.props.card)}</div>
         </form>
       </div>
     );

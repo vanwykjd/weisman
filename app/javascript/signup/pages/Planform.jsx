@@ -41,6 +41,7 @@ class Planform extends Component {
          <div>{JSON.stringify(plan)}</div>
          <div>{this.props.step}</div>
          <div>{this.props.prevStep}</div>
+         <div>{JSON.stringify(this.props.card)}</div>
          <input type="primary" value='Continue' className='btn sign-up-btn' onClick={this.saveAndContinue} />
         </div>
   

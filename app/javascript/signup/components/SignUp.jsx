@@ -15,19 +15,14 @@ class SignUp extends Component {
        email: '',
        password: '',
        password_conf: '',
-       card: ({
-          number: 0,
-          exp_month: 0,
-          exp_year: 0,
-          cvc: 0
-       })
+       card: ''
      });
      this.nextStep = this.nextStep.bind(this);
      this.previousStep = this.previousStep.bind(this);
      this.editStep = this.editStep.bind(this);
      this.setPlan = this.setPlan.bind(this);
      this.registrationInput = this.registrationInput.bind(this);
-     this.paymentInput = this.paymentInput.bind(this);
+     this.createCard = this.createCard.bind(this);
   }
   
   setPlan(plan) {
@@ -43,13 +38,8 @@ class SignUp extends Component {
     });
   }
   
-  paymentInput(e) {
-    const value = e.target.value;
-    const name = e.target.name;
-    
-    this.setState({
-      card: {[name]: value}
-    });
+  createCard(card) {
+    this.setState( card )
   }
   
   nextStep() {
@@ -97,7 +87,8 @@ class SignUp extends Component {
                  prevStep={prevStep}
                  plan={plan}
                  setPlan={this.setPlan}
-                 nextStep={this.nextStep} />)
+                 nextStep={this.nextStep}
+                 card={card}/>)
 			case 1:
 				return (<Registration
                  step={step}
@@ -107,6 +98,7 @@ class SignUp extends Component {
                  password={password}
                  password_conf={password_conf}
                  registrationInput={this.registrationInput}
+                 card={card}
                  nextStep={this.nextStep}
                  previousStep={this.previousStep}/>)
       case 2:
@@ -118,20 +110,19 @@ class SignUp extends Component {
                  password={password}
                  password_conf={password_conf}
                  card={card}
-                 paymentInput={this.paymentInput}
+                 createCard={this.createCard}
                  nextStep={this.nextStep}
                  editStep={this.editStep}
                  previousStep={this.previousStep}/>)
       case 3:
         return (<Subscribe 
-                 step={this.state.step}
-                 plan={this.state.plan}
-                 email={this.state.email}
-                 password={this.state.password}
-                 password_conf={this.state.password_conf}
-                 address={this.state.address}
-                 card={this.state.card}
-                 acct_id={this.state.acct_id}
+                 step={step}
+                 prevStep={prevStep}
+                 plan={plan}
+                 email={email}
+                 password={password}
+                 password_conf={password_conf}
+                 card={card}
                  nextStep={this.nextStep}
                  previousStep={this.previousStep}/>)
 		}
