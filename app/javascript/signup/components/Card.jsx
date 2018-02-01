@@ -6,7 +6,7 @@ class Card extends React.Component {
 
     this.handleInput = this.handleInput.bind(this);
   }
-  
+   // enables to set states in RegisterForm.jsx --- passed through props
   handleInput(e) {
     this.props.paymentInput(e)
   }

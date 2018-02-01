@@ -12,20 +12,22 @@ class Planform extends Component {
      this.saveAndContinue = this.saveAndContinue.bind(this);
   }
   
+  // Func enables to set state.plan of SignUp.js --- passed through props
   selectPlan(plan) {
     this.props.setPlan(plan);
   }
   
+   // Func sets state.plan and state.step of SignUp.js --- Funcs passed through props
   saveAndContinue(e) {
     e.preventDefault()
       this.props.nextStep()
-      this.selectPlan(this.props.plan)
+      this.selectPlan(this.props.plan) 
   }
   
   
   render() {
-     const step = this.props.step;
-     const plan = this.props.plan;
+     const step = this.props.step; // state of step in SignUp.jsx --- passed through props
+     const plan = this.props.plan; // state of plan in SignUp.jsx --- passed through props
      return (
         <div className='planform-container'>
           

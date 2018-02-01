@@ -16,7 +16,7 @@ class PaymentForm extends React.Component {
     this.paymentInput = this.paymentInput.bind(this);
   }
   
-  
+  // Func to set state[number, exp_mont, exp_year, cvc] --- passed into props 
   paymentInput(e) {
     const value = e.target.value;
     const name = e.target.name;
@@ -43,7 +43,7 @@ class PaymentForm extends React.Component {
             exp_year={exp_year}
             cvc={cvc}
             paymentInput={this.paymentInput} />
-          <Button onClick={() => this.props.createCard({card})}>
+          <Button onClick={() => this.props.setSrcInfo({card})}>
               submit
           </Button>
       </div>

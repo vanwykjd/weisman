@@ -22,15 +22,10 @@ class Subscribe extends Component {
                 amount={this.props.plan.amount} />
          </div>
          <div className='devise-form' style={{display: 'inline-block'}}>
-            <div>Email: {this.props.email}</div>
-            <div>Password: {this.props.password}</div>
-            <div>Password Conf: {this.props.password_conf}</div> 
-            <div>Card: 
-              <div>Number: {this.props.card.number}</div>
-              <div>Exp Month: {this.props.card.exp_month}</div>
-              <div>Exp Year: {this.props.card.exp_year}</div>
-              <div>CVC: {this.props.card.cvc}</div>
-           </div>
+            <div>Email: {this.props.acctInfo.email}</div>
+            <div>Password: {this.props.acctInfo.password}</div>
+            <div>Password Conf: {this.props.acctInfo.password_conf}</div> 
+            <div>{JSON.stringify(this.props.srcInfo)}</div>
          </div>
             <div className='form-group'>
               <input type="primary" value='Continue' className='btn sign-up-btn' onClick={this.saveAndContinue} />
