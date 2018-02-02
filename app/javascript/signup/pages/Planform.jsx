@@ -22,6 +22,7 @@ class Planform extends Component {
     e.preventDefault()
       this.props.nextStep()
       this.selectPlan(this.props.plan) 
+      this.props.setData()
   }
   
   
@@ -42,6 +43,7 @@ class Planform extends Component {
             </PlanList>
          <div>{JSON.stringify(plan)}</div>
          <div>{this.props.step}</div>
+         <div>{this.props.data}</div>
          <div>{this.props.prevStep}</div>
          <div>{JSON.stringify(this.props.card)}</div>
          <input type="primary" value='Continue' className='btn sign-up-btn' onClick={this.saveAndContinue} />

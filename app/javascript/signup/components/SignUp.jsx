@@ -9,6 +9,7 @@ class SignUp extends Component {
   constructor(props) {
      super(props);
      this.state = ({
+       data: '',
        step: 0,  //--Keeps track of progress
        prevStep: 0, //--Enables ability to keep track of previous step for 'editStep' func
        plan: '',  //--Plan object set in Planform.jsx
@@ -24,6 +25,8 @@ class SignUp extends Component {
     
     // Func to set state.srcInfo --- passed into props
      this.setSrcInfo = this.setSrcInfo.bind(this);
+    
+     this.fetchData = this.fetchData.bind(this);
     
     // Func to set state.step and state.prevStep --- passed into props
      this.nextStep = this.nextStep.bind(this);
@@ -49,6 +52,13 @@ class SignUp extends Component {
   // Func passed to Confirm.jsx as prop
   setSrcInfo(info) {
     this.setState({ srcInfo: info })
+  }
+  
+  fetchData() {
+      const meta = document.getElementsByTagName('meta');
+      const token = meta[1].content.toString();
+      this.setState({ data: token })
+      console.log(this.state.data)
   }
   
   // Func passed as prop to go to next step
@@ -89,19 +99,24 @@ class SignUp extends Component {
     const plan = this.state.plan;
     const acctInfo = this.state.acctInfo;
     const srcInfo = this.state.srcInfo;
+    const data = this.state.data;
     
 		switch (this.state.step) {
+      
 			case 0:
 				return (<Planform 
+                 data={data}
                  step={step}
                  prevStep={prevStep}
                  plan={plan}
                  acctInfo={acctInfo}
                  srcInfo={srcInfo}
                  setPlan={this.setPlan} // Func enables to set state.plan
-                 nextStep={this.nextStep}/>) // Func enables to go to next step
+                 nextStep={this.nextStep}
+                 setData={this.fetchData}/>) // Func enables to go to next step
 			case 1:
 				return (<Registration
+                 data={data}
                  step={step}
                  prevStep={prevStep}
                  plan={plan}
