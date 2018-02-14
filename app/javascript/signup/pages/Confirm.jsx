@@ -13,16 +13,21 @@ class Confirm extends Component {
   
    // Func sets state.srcInfo and state.step of SignUp.jsx --- Funcs passed through props
   saveAndContinue(e) {
-    const card = this.props.srcInfo; // Constant set to state.srcInfo in SignUp.jsx --- passed through props
-    
     e.preventDefault()
-      this.props.nextStep()
-      this.props.setSrcInfo(card)
+      this.props.setSrcInfo(this.props.card)
+    
+      this.props.next()
   }
   
   // Need a function to pass state.srcInfo object to Stripe to create a source-token to attach to account number //
   
   render() {
+    
+     const registration_progress = this.props.registration_progress;
+     const nextStep = this.props.nextStep;
+     const prevStep = this.props.prevStep;
+     const plan = this.props.plan; 
+     const acctInfo = this.props.acctInfo;
     
      return (
        <div className='planform-container'>
@@ -30,20 +35,21 @@ class Confirm extends Component {
           
          <div className='devise-form' style={{display: 'inline-block'}}>
             <Plan 
-                name={this.props.plan.name}
-                amount={this.props.plan.amount} />
-            <input type="primary" value='Edit' className='btn sign-up-btn' onClick={() => this.props.editStep(0)} />
+                name={plan.name}
+                amount={plan.amount} />
+            <input type="primary" value='Edit' className='btn sign-up-btn' onClick={() => this.props.edit(0)} />
          </div>
           
           
          <div className='devise-form' style={{display: 'inline-block'}}>
-            <div>{this.props.step}</div>
-            <div>{this.props.prevStep}</div>
-            <div>{this.props.acctInfo.email}</div>
-            <div>{this.props.acctInfo.password}</div>
-            <div>{this.props.acctInfo.password_conf}</div> 
-            <div>{JSON.stringify(this.props.srcInfo)}</div>
-            <input type="primary" value='Edit' className='btn sign-up-btn' onClick={() => this.props.editStep(1)} />
+            <div>{registration_progress}</div>
+            <div>{nextStep}</div>
+            <div>{prevStep}</div>
+
+            <div>{acctInfo.account.email}</div>
+            <div>{acctInfo.account.password}</div>
+            <div>{acctInfo.account.password_confirmation}</div> 
+            <input type="primary" value='Edit' className='btn sign-up-btn' onClick={() => this.props.edit(1)} />
          </div>
           
           
@@ -57,7 +63,7 @@ class Confirm extends Component {
          </div>
           </div>
             <div className='form-group'>
-              <input type="primary" value='Go Back' className='btn sign-up-btn' onClick={this.props.previousStep} />
+              <input type="primary" value='Go Back' className='btn sign-up-btn' onClick={this.props.previous} />
               <input type="primary" value='Continue' className='btn sign-up-btn' onClick={this.saveAndContinue} />
             </div>
          </div>

@@ -3,18 +3,19 @@ import Planform from './../pages/Planform.jsx' // Page to select Plan
 import Registration from './../pages/Registration.jsx' // Page to enter Email, Pass, PassConf...
 import Confirm from './../pages/Confirm.jsx' // Page to edit any prev inputed data and enter Payment info
 import Subscribe from './../pages/Subscribe.jsx' // Page to submit all info once all data has been verified
-
+import Continue from './Continue'
 
 class SignUp extends Component { 
+
   constructor(props) {
      super(props);
      this.state = ({
-       data: '',
-       step: 0,  //--Keeps track of progress
-       prevStep: 0, //--Enables ability to keep track of previous step for 'editStep' func
-       plan: '',  //--Plan object set in Planform.jsx
-       acctInfo: '', //--Account info ex: Email, Pass, PassConf... Object set Registration.jsx
-       srcInfo: '' //--Payment info ex: Credit Card... Object set in Confirm.jsx
+       registration_progress: 0,  
+       nextStep: '',
+       prevStep: '', 
+       plan: '',
+       acctInfo: '',
+       srcInfo: ''
      });
      
      // Func to set state.plan --- passed into props
@@ -25,17 +26,19 @@ class SignUp extends Component {
     
     // Func to set state.srcInfo --- passed into props
      this.setSrcInfo = this.setSrcInfo.bind(this);
-    
-     this.fetchData = this.fetchData.bind(this);
-    
-    // Func to set state.step and state.prevStep --- passed into props
-     this.nextStep = this.nextStep.bind(this);
+
     
     // Func to set state.step and state.prevStep --- passed into props
-     this.previousStep = this.previousStep.bind(this);
+     this.next = this.next.bind(this);
     
     // Func to set state.step and state.prevStep --- passed into props
-     this.editStep = this.editStep.bind(this);
+     this.previous = this.previous.bind(this);
+    
+    // Func to set state.step and state.prevStep --- passed into props
+     this.edit = this.edit.bind(this);
+    
+     this.getStatus = this.getStatus.bind(this);
+
   }
   
   
@@ -54,99 +57,141 @@ class SignUp extends Component {
     this.setState({ srcInfo: info })
   }
   
-  fetchData() {
-      const meta = document.getElementsByTagName('meta');
-      const token = meta[1].content.toString();
-      this.setState({ data: token })
-      console.log(this.state.data)
+  componentWillMount() {
+   return this.getStatus();
   }
   
+
+  getStatus() {
+    const request = new XMLHttpRequest();
+    
+    request.open("GET", '/account/new');
+    request.responseType = 'text';
+    
+    request.onreadystatechange = () => {
+      if (request.readyState === 4 && request.status == 200 ) {
+        let data = JSON.parse(request.responseText);
+        console.log('data', data);
+
+        this.setState({ 
+          registration_progress: data.registration_progress,
+          nextStep: data.registration_progress + 1,
+          prevStep: data.registration_progress - 1,
+          plan: { id: data.plan },
+          acctInfo: { email: data.email }
+          
+        });
+        console.log(this.state.registration_progress);
+        console.log(this.state.nextStep);
+        console.log(this.state.prevStep);
+        console.log(this.state.plan);
+        console.log(this.state.email);
+      }
+    }
+
+    request.send();
+  }
+  
+  
   // Func passed as prop to go to next step
-  nextStep() {
-    const currentStep = this.state.step;
-    const nextStep = this.state.step + 1;
+  next() {
+    const registration_progress = this.state.registration_progress;
+    const nextStep = this.state.registration_progress + 1;
     const prevStep = this.state.prevStep;
     
-    if (prevStep > currentStep) {
-      this.setState({ step: prevStep,
-                      prevStep: currentStep });
+    if (prevStep > registration_progress) {
+      this.setState({ registration_progress: prevStep,
+                      nextStep: nextStep + 1,
+                      prevStep: registration_progress });
     } else {
-      this.setState({ step: nextStep,
-                      prevStep: currentStep });
+      this.setState({ registration_progress: nextStep,
+                      nextStep: nextStep + 1,
+                      prevStep: registration_progress });
     }
   }
   
   // Func passed as prop to go to prev step
-  previousStep() {
-    const step = this.state.step - 1;
-    const prevStep = this.state.step;
-    this.setState({ step: step,
+  previous() {
+    const registration_progress = this.state.registration_progress - 1;
+    const prevStep = this.state.registration_progress;
+    
+    this.setState({ registration_progress: registration_progress,
                     prevStep: prevStep });
   }
   
   // Func passed as prop to edit selected step
-  editStep(step) {
+  edit(step) {
     const editStep = step;
-    const prevStep = this.state.step;
-    this.setState({ step: editStep,
+    const prevStep = this.state.registration_progress;
+    this.setState({ registration_progress: editStep,
                     prevStep: prevStep });
   }
   
   
   render() {
-    const step = this.state.step;
+    const registration_progress = this.state.registration_progress;
+    const nextStep = this.state.nextStep;
     const prevStep = this.state.prevStep;
     const plan = this.state.plan;
     const acctInfo = this.state.acctInfo;
     const srcInfo = this.state.srcInfo;
-    const data = this.state.data;
     
-		switch (this.state.step) {
-      
-			case 0:
-				return (<Planform 
-                 data={data}
-                 step={step}
-                 prevStep={prevStep}
-                 plan={plan}
-                 acctInfo={acctInfo}
-                 srcInfo={srcInfo}
-                 setPlan={this.setPlan} // Func enables to set state.plan
-                 nextStep={this.nextStep}
-                 setData={this.fetchData}/>) // Func enables to go to next step
-			case 1:
-				return (<Registration
-                 data={data}
-                 step={step}
-                 prevStep={prevStep}
-                 plan={plan}
-                 acctInfo={acctInfo}
-                 srcInfo={srcInfo}
-                 setAcctInfo={this.setAcctInfo} // Func enables to set state.acctInfo **Registration Info**
-                 nextStep={this.nextStep} // Func enables to go to next step
-                 previousStep={this.previousStep}/>) // Func enables to go to prev step
-      case 2:
-        return (<Confirm 
-                 step={step}
-                 prevStep={prevStep}
-                 plan={plan}
-                 acctInfo={acctInfo}
-                 srcInfo={srcInfo}
-                 setSrcInfo={this.setSrcInfo} // Func enables to set state.srcInfo **Payment info**
-                 nextStep={this.nextStep} // Func enables to go to next step
-                 previousStep={this.previousStep} // Func enables to go to prev step
-                 editStep={this.editStep} />) // Func enables to edit selected data
-                 
-      case 3:
-        return (<Subscribe 
-                 step={step}
-                 prevStep={prevStep}
-                 plan={plan}
-                 acctInfo={acctInfo}
-                 srcInfo={srcInfo}
-                 nextStep={this.nextStep} // Func enables to go to next step
-                 previousStep={this.previousStep}/>) // Func enables to go to prev step
-		}
+      switch (this.state.registration_progress) {
+        case 0:
+          return (<Planform 
+                   registration_progress={registration_progress}
+                   nextStep={nextStep}
+                   prevStep={prevStep}
+                   plan={plan}
+                   acctInfo={acctInfo}
+                   srcInfo={srcInfo}
+                    
+                   setPlan={this.setPlan}
+                    
+                   next={this.next}/>) 
+        case 1:
+          return (<Registration
+                   registration_progress={registration_progress}
+                   nextStep={nextStep}
+                   prevStep={prevStep}
+                   plan={plan}
+                   acctInfo={acctInfo}
+                   srcInfo={srcInfo}
+                   getStatus={this.getStatus}
+                   getForm={this.getForm}
+                    
+                   setAcctInfo={this.setAcctInfo}
+                    
+                   next={this.next} 
+                   previous={this.previous}/>) 
+
+        case 2:
+          return (<Confirm 
+                   registration_progress={registration_progress}
+                   nextStep={nextStep}
+                   prevStep={prevStep}
+                   plan={plan}
+                   acctInfo={acctInfo}
+                   srcInfo={srcInfo}
+                    
+                   setSrcInfo={this.setSrcInfo} 
+                    
+                   next={this.next} 
+                   previous={this.previous} 
+                   edit={this.edit} />) 
+
+        case 3:
+          return (<Subscribe 
+                   registration_progress={registration_progress}
+                   nextStep={nextStep}
+                   prevStep={prevStep}
+                   plan={plan}
+                   acctInfo={acctInfo}
+                   srcInfo={srcInfo}
+                    
+                   next={this.next} 
+                   previous={this.previous}/>)
+      }   
 	}
 }
 
