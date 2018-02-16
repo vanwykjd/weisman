@@ -1,4 +1,6 @@
 class AccountsController < ApplicationController
+  include AccountsHelper
+  
   respond_to :json
   respond_to :js
   

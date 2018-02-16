@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 20180110193713) do
     t.string "address_state"
     t.string "account_id"
     t.string "subscription_id"
-    t.string "registration_progress"
+    t.integer "registration_progress"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_accounts_on_account_id"

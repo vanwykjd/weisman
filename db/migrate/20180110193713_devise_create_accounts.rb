@@ -44,7 +44,7 @@ class DeviseCreateAccounts < ActiveRecord::Migration[5.1]
       t.string   :address_state
       t.string   :account_id
       t.string   :subscription_id
-      t.string   :registration_progress
+      t.integer   :registration_progress
       
       t.timestamps null: false
     end

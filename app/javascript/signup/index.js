@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider, connect } from 'react-redux'
 import { createStore } from 'redux'
 import SignUp from './components/SignUp'
+
 // import reducer from './reducers'
 // let store = createStore(reducer)
 

@@ -46,9 +46,9 @@ class Confirm extends Component {
             <div>{nextStep}</div>
             <div>{prevStep}</div>
 
-            <div>{acctInfo.account.email}</div>
-            <div>{acctInfo.account.password}</div>
-            <div>{acctInfo.account.password_confirmation}</div> 
+            <div>{acctInfo.email}</div>
+            <div>{acctInfo.password}</div>
+            <div>{acctInfo.password_confirmation}</div> 
             <input type="primary" value='Edit' className='btn sign-up-btn' onClick={() => this.props.edit(1)} />
          </div>
           

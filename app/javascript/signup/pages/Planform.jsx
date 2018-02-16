@@ -11,7 +11,7 @@ class Planform extends Component {
      super(props);
      this.selectPlan = this.selectPlan.bind(this);
      this.saveAndContinue = this.saveAndContinue.bind(this);
-     this.generateFormInput = this.generateFormInput.bind(this);
+     //this.generateFormInput = this.generateFormInput.bind(this);
   }
   
   
@@ -21,6 +21,7 @@ class Planform extends Component {
     this.props.setPlan(plan);
   }
   
+  /*
   generateFormInput() {
     const request = new XMLHttpRequest();
     request.open("GET", '/accounts/sign_up');
@@ -36,13 +37,13 @@ class Planform extends Component {
     }
     request.send();
   }
-  
+  */
   
    // Func sets state.plan and state.step of SignUp.js --- Funcs passed through props
   saveAndContinue(e) {
     e.preventDefault()
       this.selectPlan(this.props.plan) 
-      this.generateFormInput();
+      //this.generateFormInput();
       this.props.next()
   }
   

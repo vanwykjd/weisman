@@ -5,6 +5,7 @@ class Accounts::RegistrationsController < Devise::RegistrationsController
   respond_to :json
   respond_to :js
   
+  before_action :get_progress, only: [ :signup ]
   before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
@@ -60,6 +61,21 @@ class Accounts::RegistrationsController < Devise::RegistrationsController
   # def cancel
   #   super
   # end
+  
+  def signup
+    if current_account
+      @account = current_account
+    else
+      @account = {
+       registration_progress: 0,  
+       nextStep: '',
+       prevStep: '', 
+       plan: '',
+       email: '',
+       acctInfo: ''
+     }
+    end
+  end
 
   protected
 

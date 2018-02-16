@@ -4,17 +4,10 @@ import PropTypes from 'prop-types';
 class RegisterForm extends React.Component {
   constructor(props) {
     super(props)
-    super(props)
-    this.state = ({
-        email: '',
-        password: '',
-        password_conf: '',
-        plan: this.props.plan
-    });
+    
     
     //this.generateForm = this.generateForm.bind(this);
     this.handleInput = this.handleInput.bind(this);
-    this.submitForm = this.submitForm.bind(this);
   }
    /*
   componentWillMount() {
@@ -44,31 +37,16 @@ class RegisterForm extends React.Component {
   
   
   render() { 
-    const token = this.props.token;
-    
-    const registration_progress = this.props.nextStep;
-    const plan_id = this.props.plan.id;
-  
-    const email = this.state.email;
-    const password = this.state.password;
-    const password_conf = this.state.password_confirmation;
-    
 
     return (
-   <form className="new_account" id="new_account" method="post" action="/accounts" onSubmit={this.saveAndContinue}>
-          <input name="utf8" type="hidden" defaultValue="✓" />
-          <input name="plan_id" type="hidden" defaultValue={plan_id} />
-          <input name="registration_progress" type="hidden" defaultValue={registration_progress} />
-          <div className='form-group'>
-            <input className='form-control' type='email' name='email' value={email} id="account_email"  placeholder="Email" onChange={this.handleInput}/>
-          </div>
-          <div className='form-group'>
-            <input className='form-control' type="password" name='password' value={password} id="account_password" placeholder="Password" onChange={this.handleInput}/>
-          </div>
-          <div className='form-group'>
-            <input className='form-control' type="password" name='password_confirmation' value={password_confirmation} id="account_password_conf" placeholder="Password Confirmation" onChange={this.handleInput}/>
-          </div>
-    </form>
+      <div className='form-group'>
+        <input name="account[plan_id]" type="hidden" defaultValue={this.props.account.plan_id} />
+        <input name="account[registration_progress]" type="hidden" defaultValue={this.props.account.registration_progress} />
+        <input className='form-control' type='email' name='account[email]' value={this.props.account.email} id="email"  placeholder="Email" onChange={this.handleInput}/>
+        <input className='form-control' type="password" name='account[password]' value={this.props.account.password} id="password" placeholder="Password" onChange={this.handleInput}/>
+        <input className='form-control' type="password" name='account[password_confirmation]' value={this.props.account.password_confirmation} id="password_confirmation" placeholder="Password Confirmation" onChange={this.handleInput}/>
+      </div>
+
     );
   }
 }
