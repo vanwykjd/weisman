@@ -3,14 +3,14 @@ import Planform from './../pages/Planform.jsx' // Page to select Plan
 import Registration from './../pages/Registration.jsx' // Page to enter Email, Pass, PassConf...
 import Confirm from './../pages/Confirm.jsx' // Page to edit any prev inputed data and enter Payment info
 import Subscribe from './../pages/Subscribe.jsx' // Page to submit all info once all data has been verified
-import Continue from './Continue'
+import Continue from './../pages/Continue.jsx'
 
 class SignUp extends Component { 
 
   constructor(props) {
      super(props);
      this.state = ({
-       registration_progress: 0,  
+       registration_progress: '',  
        nextStep: '',
        prevStep: '', 
        plan: '',
@@ -27,7 +27,6 @@ class SignUp extends Component {
     // Func to set state.srcInfo --- passed into props
      this.setSrcInfo = this.setSrcInfo.bind(this);
 
-    
     // Func to set state.step and state.prevStep --- passed into props
      this.next = this.next.bind(this);
     
@@ -38,10 +37,10 @@ class SignUp extends Component {
      this.edit = this.edit.bind(this);
     
      this.getStatus = this.getStatus.bind(this);
-
+    
   }
   
-  
+
   // Func passed to Planform.jsx as prop
   setPlan(plan) {
     this.setState({ plan })
@@ -57,15 +56,25 @@ class SignUp extends Component {
     this.setState({ srcInfo: info })
   }
   
+  setToken(token) {
+    this.setState({ token: toekn })
+  }
+  
   componentWillMount() {
-   return this.getStatus();
+   this.getStatus();
+   this.getAuth();
+  }
+  
+  getAuth() {
+    const data = document.getElementsByTagName('meta');
+    this.setState({ token: data[1].content });
   }
   
 
   getStatus() {
     const request = new XMLHttpRequest();
     
-    request.open("GET", '/account/new');
+    request.open("GET", '/registration_progress');
     request.responseType = 'text';
     
     request.onreadystatechange = () => {
@@ -135,10 +144,12 @@ class SignUp extends Component {
     const plan = this.state.plan;
     const acctInfo = this.state.acctInfo;
     const srcInfo = this.state.srcInfo;
+    const token = this.state.token;
     
       switch (this.state.registration_progress) {
-        case 0:
+        case 1:
           return (<Planform 
+                   token={token}
                    registration_progress={registration_progress}
                    nextStep={nextStep}
                    prevStep={prevStep}
@@ -147,10 +158,11 @@ class SignUp extends Component {
                    srcInfo={srcInfo}
                     
                    setPlan={this.setPlan}
-                    
+                   setToken={this.setToken}
                    next={this.next}/>) 
-        case 1:
+        case 2:
           return (<Registration
+                   token={token}
                    registration_progress={registration_progress}
                    nextStep={nextStep}
                    prevStep={prevStep}
@@ -161,12 +173,14 @@ class SignUp extends Component {
                    getForm={this.getForm}
                     
                    setAcctInfo={this.setAcctInfo}
+                   setToken={this.setToken}
                     
                    next={this.next} 
                    previous={this.previous}/>) 
 
-        case 2:
+        case 3:
           return (<Confirm 
+                   token={token}
                    registration_progress={registration_progress}
                    nextStep={nextStep}
                    prevStep={prevStep}
@@ -175,12 +189,13 @@ class SignUp extends Component {
                    srcInfo={srcInfo}
                     
                    setSrcInfo={this.setSrcInfo} 
+                   setToken={this.setToken}
                     
                    next={this.next} 
                    previous={this.previous} 
                    edit={this.edit} />) 
 
-        case 3:
+        case 4:
           return (<Subscribe 
                    registration_progress={registration_progress}
                    nextStep={nextStep}
@@ -191,6 +206,17 @@ class SignUp extends Component {
                     
                    next={this.next} 
                    previous={this.previous}/>)
+        default:
+          return (<Continue
+                    registration_progress={registration_progress}
+                    nextStep={nextStep}
+                    prevStep={prevStep}
+                    plan={plan}
+                    acctInfo={acctInfo}
+                    srcInfo={srcInfo}
+                    getStatus={this.getStatus}
+                    
+                    next={this.next} />)
       }   
 	}
 }

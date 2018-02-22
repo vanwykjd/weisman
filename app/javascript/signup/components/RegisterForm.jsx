@@ -4,11 +4,31 @@ import PropTypes from 'prop-types';
 class RegisterForm extends React.Component {
   constructor(props) {
     super(props)
-    
-    
+    this.state = {
+            registration_progress: this.props.registration_progress,
+            plan_id: this.props.plan_id,
+            email: '',
+            password: '',
+            password_confirmation: ''
+      };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     //this.generateForm = this.generateForm.bind(this);
-    this.handleInput = this.handleInput.bind(this);
   }
+  
+  handleChange(e) {
+    const value = e.target.value;
+    const name = e.target.name;
+    
+    this.setState({
+        [name]: value
+    });
+  }
+  
+   handleSubmit(e) {
+    e.preventDefault(); 
+    this.props.registrationRequest(e, this.state);
+   }
    /*
   componentWillMount() {
     this.generateForm();
@@ -31,24 +51,36 @@ class RegisterForm extends React.Component {
   }
   */
   // enables to set states in Registration.jsx --- passed through props
-  handleInput(e) {
-    this.props.handleChange(e);
-  }
-  
   
   render() { 
+    const email = this.state.email;
+    const password = this.state.password;
+    const password_confirmation = this.state.password_confirmation;
 
     return (
-      <div className='form-group'>
-        <input name="account[plan_id]" type="hidden" defaultValue={this.props.account.plan_id} />
-        <input name="account[registration_progress]" type="hidden" defaultValue={this.props.account.registration_progress} />
-        <input className='form-control' type='email' name='account[email]' value={this.props.account.email} id="email"  placeholder="Email" onChange={this.handleInput}/>
-        <input className='form-control' type="password" name='account[password]' value={this.props.account.password} id="password" placeholder="Password" onChange={this.handleInput}/>
-        <input className='form-control' type="password" name='account[password_confirmation]' value={this.props.account.password_confirmation} id="password_confirmation" placeholder="Password Confirmation" onChange={this.handleInput}/>
-      </div>
-
+      <form onSubmit={this.handleSubmit}>
+        <div className="form-group">
+          <input className='form-control' type='email' name='email' value={email} id='account_email' placeholder="Email" onChange={this.handleChange}/>
+        </div>
+        
+        <div className="form-group">
+          <input className='form-control' type="password" name='password' value={password} id='account_password' placeholder="Password" onChange={this.handleChange}/>
+        </div>
+        
+        <div className="form-group">
+          <input className='form-control' type="password" name='password_confirmation' value={password_confirmation} id='account_password_confirmation' placeholder="Password Confirmation" onChange={this.handleChange}/>
+        </div>
+        
+        <div className="form-group">
+          <input type="submit" name="commit" value="Sign up" className='btn sign-up-btn' />
+        </div>
+      </form>
     );
   }
 }
 
-export default RegisterForm
+RegisterForm.propTypes = {
+  registrationRequest: PropTypes.func.isRequired
+}
+
+export default RegisterForm;

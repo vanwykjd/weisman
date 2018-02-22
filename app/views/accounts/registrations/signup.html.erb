@@ -1,6 +1,13 @@
 <section class='sign-up text-center'>
-  <%= link_to image_tag("Barweiser3DG.png"), root_path, class: 'heading' %>
- 
+  <% if account_signed_in? %>
+    <%= link_to image_tag("Barweiser3DG.png"), destroy_account_session_path, method: :get,  class: 'heading' %>
+  <%else%>
+    <%= link_to image_tag("Barweiser3DG.png"), root_path, class: 'heading'  %>
+  <%end%>
+  
+  <%= devise_error_messages! %>
   <div id='signup'></div>
+  <%= render "devise/shared/links" %>
 </section>
+
 <%= javascript_pack_tag 'signup' %>

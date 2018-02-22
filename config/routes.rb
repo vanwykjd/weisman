@@ -1,15 +1,21 @@
 Rails.application.routes.draw do
   
-  get 'account/new', to: 'accounts#signup'
-  
-  get 'signup', to: 'signup#new'
+  namespace :accounts do    
+    get 'signup/new'
+    get 'signup/edit'
+  end
 
   devise_for :accounts, controllers: {
       registrations: 'accounts/registrations',
       confirmations: 'accounts/confirmations',
-    }
+  }
+
+  devise_scope :account do
+    get 'signup_form', to: 'accounts/registrations#new'
+    get 'signup', to: 'accounts/registrations#signup'
+    get 'registration_progress', to: 'accounts/registrations#signup_session'
+  end
   
-  resources :accounts, only: [:show]
   
   authenticated :accounts do
     root to: 'accounts#show', as: :authenticated_root

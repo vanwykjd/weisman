@@ -5,7 +5,7 @@ class Accounts::RegistrationsController < Devise::RegistrationsController
   respond_to :json
   respond_to :js
   
-  before_action :get_progress, only: [ :signup ]
+  before_action :get_progress, only: [ :signup_session ]
   before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
@@ -61,20 +61,14 @@ class Accounts::RegistrationsController < Devise::RegistrationsController
   # def cancel
   #   super
   # end
-  
   def signup
-    if current_account
-      @account = current_account
-    else
-      @account = {
-       registration_progress: 0,  
-       nextStep: '',
-       prevStep: '', 
-       plan: '',
-       email: '',
-       acctInfo: ''
-     }
-    end
+    build_resource
+    yield resource if block_given?
+    respond_with resource
+  end
+  
+  def signup_session
+    render json: @account, status: 200
   end
 
   protected
@@ -91,7 +85,7 @@ class Accounts::RegistrationsController < Devise::RegistrationsController
 
   # The path used after sign up.
   def after_sign_up_path_for(resource)
-    signup_path
+    edit_account_registration_path
   end
 
   # The path used after sign up for inactive accounts.
@@ -100,6 +94,14 @@ class Accounts::RegistrationsController < Devise::RegistrationsController
   # end
   
   private
+  
+  def get_progress    
+    if current_account
+      @account = current_account
+    else
+      @account = self.build_resource
+    end
+  end
 
   def sign_up(_resource_name, _resource)
     true
