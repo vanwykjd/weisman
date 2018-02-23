@@ -54,6 +54,7 @@ class Registration extends React.Component {
          <div id="error_explanation">
         </div>
         <RegisterForm
+          getStatus={this.props.getStatus}
           setAcctInfo={this.props.setAcctInfo}
           next={this.props.next}
           registrationRequest={registrationRequest}

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-export function registrationRequest(event, acctInfo, errorCheck, clearForm, setAcctInfo, next) {
+export function registrationRequest(event, acctInfo, errorCheck, clearForm, getStatus, setAcctInfo, next) {
       
   return dispatch => {
     event.preventDefault();
@@ -67,8 +67,9 @@ export function registrationRequest(event, acctInfo, errorCheck, clearForm, setA
                    clearForm;
                  },
                  success: function () {
+                   getStatus();
                    setAcctInfo(acctInfo);
-                   next;
+                   next();
                   }
                 })
               }

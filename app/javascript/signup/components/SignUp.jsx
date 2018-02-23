@@ -15,7 +15,8 @@ class SignUp extends Component {
        prevStep: '', 
        plan: '',
        acctInfo: '',
-       srcInfo: ''
+       srcInfo: '',
+       account: ''
      });
      
      // Func to set state.plan --- passed into props
@@ -79,15 +80,13 @@ class SignUp extends Component {
           registration_progress: data.registration_progress,
           nextStep: data.registration_progress + 1,
           prevStep: data.registration_progress - 1,
-          plan: { id: data.plan },
-          acctInfo: { email: data.email }
+          account: data,
           
         });
-        console.log(this.state.registration_progress);
-        console.log(this.state.nextStep);
-        console.log(this.state.prevStep);
-        console.log(this.state.plan);
-        console.log(this.state.email);
+        console.log('RegProcess: ', this.state.registration_progress);
+        console.log('NextStep :', this.state.nextStep);
+        console.log('PrevStep: ', this.state.prevStep);
+        console.log('Account: ', this.state.account);
       }
     }
 
@@ -137,6 +136,7 @@ class SignUp extends Component {
     const plan = this.state.plan;
     const acctInfo = this.state.acctInfo;
     const srcInfo = this.state.srcInfo;
+    const account = this.state.account;
 
     
       switch (this.state.registration_progress) {
@@ -162,7 +162,7 @@ class SignUp extends Component {
                    srcInfo={srcInfo}
                    getStatus={this.getStatus}
                    setAcctInfo={this.setAcctInfo}
-            
+                  
                    next={this.next} 
                    previous={this.previous}/>) 
 
@@ -175,9 +175,10 @@ class SignUp extends Component {
                    plan={plan}
                    acctInfo={acctInfo}
                    srcInfo={srcInfo}
+                   account={account}
                     
                    setSrcInfo={this.setSrcInfo} 
-                 
+                   
                     
                    next={this.next} 
                    previous={this.previous} 

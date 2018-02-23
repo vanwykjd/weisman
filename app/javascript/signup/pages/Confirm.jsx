@@ -28,6 +28,7 @@ class Confirm extends Component {
      const prevStep = this.props.prevStep;
      const plan = this.props.plan; 
      const acctInfo = this.props.acctInfo;
+     const account = this.props.account;
     
      return (
        <div className='planform-container'>
@@ -37,19 +38,19 @@ class Confirm extends Component {
             <Plan 
                 name={plan.name}
                 amount={plan.amount} />
-            <input type="primary" value='Edit' className='btn sign-up-btn' onClick={() => this.props.edit(0)} />
+            <input type="primary" value='Edit' className='btn sign-up-btn' onClick={() => this.props.edit(1)} />
          </div>
           
           
          <div className='devise-form' style={{display: 'inline-block'}}>
-            <div>{registration_progress}</div>
-            <div>{nextStep}</div>
-            <div>{prevStep}</div>
-
-            <div>{acctInfo.email}</div>
+            <div className='text-center form-header'>
+              <h5>Enter your payment info.</h5>
+            </div>
+            <div>{account.id}</div>
+            <div>{account.email}</div>
             <div>{acctInfo.password}</div>
             <div>{acctInfo.password_confirmation}</div> 
-            <input type="primary" value='Edit' className='btn sign-up-btn' onClick={() => this.props.edit(1)} />
+            <input type="primary" value='Edit' className='btn sign-up-btn' onClick={() => this.props.edit(5)} />
          </div>
           
           
@@ -63,7 +64,6 @@ class Confirm extends Component {
          </div>
           </div>
             <div className='form-group'>
-              <input type="primary" value='Go Back' className='btn sign-up-btn' onClick={this.props.previous} />
               <input type="primary" value='Continue' className='btn sign-up-btn' onClick={this.saveAndContinue} />
             </div>
          </div>

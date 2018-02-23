@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class RegisterForm extends React.Component {
+class ConfirmForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -37,10 +37,9 @@ class RegisterForm extends React.Component {
     const errorCheck = this.props.handleErrors;
     const clearForm = this.clearForm();
     const inputs = this.state;
-    const getStatus = this.props.getStatus;
     const setAcctInfo = this.props.setAcctInfo;
     const next = this.props.next;
-    this.props.registrationRequest(e, inputs, errorCheck, clearForm, getStatus, setAcctInfo, next);
+    this.props.registrationRequest(e, inputs, errorCheck, clearForm, setAcctInfo, next);
    }
  
   
@@ -71,8 +70,8 @@ class RegisterForm extends React.Component {
   }
 }
 
-RegisterForm.propTypes = {
-  registrationRequest: PropTypes.func.isRequired
+ConfirmForm.propTypes = {
+  updateRequest: PropTypes.func.isRequired
 }
 
-export default RegisterForm;
+export default ConfirmForm;
