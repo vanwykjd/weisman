@@ -6,5 +6,6 @@ class Account < ApplicationRecord
          :confirmable, :timeoutable
   
   validates :plan_id, presence: true
-  
+ 
+
 end

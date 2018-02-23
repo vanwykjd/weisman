@@ -55,20 +55,13 @@ class SignUp extends Component {
   setSrcInfo(info) {
     this.setState({ srcInfo: info })
   }
-  
-  setToken(token) {
-    this.setState({ token: toekn })
-  }
+
   
   componentWillMount() {
    this.getStatus();
-   this.getAuth();
   }
   
-  getAuth() {
-    const data = document.getElementsByTagName('meta');
-    this.setState({ token: data[1].content });
-  }
+
   
 
   getStatus() {
@@ -144,25 +137,23 @@ class SignUp extends Component {
     const plan = this.state.plan;
     const acctInfo = this.state.acctInfo;
     const srcInfo = this.state.srcInfo;
-    const token = this.state.token;
+
     
       switch (this.state.registration_progress) {
         case 1:
           return (<Planform 
-                   token={token}
+
                    registration_progress={registration_progress}
                    nextStep={nextStep}
                    prevStep={prevStep}
                    plan={plan}
                    acctInfo={acctInfo}
                    srcInfo={srcInfo}
-                    
                    setPlan={this.setPlan}
-                   setToken={this.setToken}
+                
                    next={this.next}/>) 
         case 2:
           return (<Registration
-                   token={token}
                    registration_progress={registration_progress}
                    nextStep={nextStep}
                    prevStep={prevStep}
@@ -170,17 +161,14 @@ class SignUp extends Component {
                    acctInfo={acctInfo}
                    srcInfo={srcInfo}
                    getStatus={this.getStatus}
-                   getForm={this.getForm}
-                    
                    setAcctInfo={this.setAcctInfo}
-                   setToken={this.setToken}
-                    
+            
                    next={this.next} 
                    previous={this.previous}/>) 
 
         case 3:
           return (<Confirm 
-                   token={token}
+                
                    registration_progress={registration_progress}
                    nextStep={nextStep}
                    prevStep={prevStep}
@@ -189,7 +177,7 @@ class SignUp extends Component {
                    srcInfo={srcInfo}
                     
                    setSrcInfo={this.setSrcInfo} 
-                   setToken={this.setToken}
+                 
                     
                    next={this.next} 
                    previous={this.previous} 

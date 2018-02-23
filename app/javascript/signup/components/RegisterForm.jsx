@@ -13,44 +13,35 @@ class RegisterForm extends React.Component {
       };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    //this.generateForm = this.generateForm.bind(this);
+    this.clearForm = this.clearForm.bind(this);
   }
   
-  handleChange(e) {
-    const value = e.target.value;
-    const name = e.target.name;
+    handleChange(e) {
+      const value = e.target.value;
+      const name = e.target.name;
+
+      this.setState({
+          [name]: value
+      });
+    }
     
+   clearForm() {
     this.setState({
-        [name]: value
-    });
-  }
+        password: '',
+        password_confirmation: ''
+      })
+   }
   
    handleSubmit(e) {
     e.preventDefault(); 
-    this.props.registrationRequest(e, this.state);
+    const errorCheck = this.props.handleErrors;
+    const clearForm = this.clearForm();
+    const inputs = this.state;
+    const setAcctInfo = this.props.setAcctInfo;
+    const next = this.props.next();
+    this.props.registrationRequest(e, inputs, errorCheck, clearForm, setAcctInfo, next);
    }
-   /*
-  componentWillMount() {
-    this.generateForm();
-  }
  
-  generateForm() {
-    const request = new XMLHttpRequest();
-    
-    request.open("GET", 'http://localhost:3000/accounts/sign_up');
-    request.responseType = 'document';
-    
-    request.onload = function() {
-      const data = request.response.getElementsByTagName('input');
-      const form = document.getElementById('new_account');
-      form.prepend(data[1]);
-      console.log(data[1]);
-    }
-    
-    request.send();
-  }
-  */
-  // enables to set states in Registration.jsx --- passed through props
   
   render() { 
     const email = this.state.email;

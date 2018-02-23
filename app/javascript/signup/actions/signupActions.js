@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-export function registrationRequest(event, acctInfo) {
+export function registrationRequest(event, acctInfo, errorCheck, clearForm, setAcctInfo, next) {
       
   return dispatch => {
     event.preventDefault();
@@ -26,7 +26,7 @@ export function registrationRequest(event, acctInfo) {
                             plan_id: acctInfo.plan_id,
                             email: acctInfo.email,
                             password: acctInfo.password,
-                            password_confirmation: acctInfo.pasword_confirmation
+                            password_confirmation: acctInfo.password_confirmation
                           }
                 }
       
@@ -35,12 +35,117 @@ export function registrationRequest(event, acctInfo) {
                  url: 'http://localhost:3000/accounts',
                  dataType: 'json',
                  data: inputData,
-                 error: function (error) {
-                  const err = JSON.stringify(error.responseText) 
-                  alert(err);
+                 error: function (response) {
+                  const resJSON = response.responseJSON;
+                  const emailError = resJSON.errors['email']
+                  const pswError = resJSON.errors['password']
+                  const pswConfError = resJSON.errors['password_confirmation']
+                  
+                  console.log(resJSON);
+                  var msgArr = [];
+                   
+                   if (emailError) {
+                     emailError.forEach(function(msg) {
+                       msgArr.push("Email " + msg + ".");
+                     })
+                
+                   }
+                   if (pswError) {
+                      pswError.forEach(function(msg) {
+                        msgArr.push("Password " + msg + ".");
+                     })
+      
+                   }
+                   if (pswConfError) {
+                      pswConfError.forEach(function(msg) {
+                        msgArr.push("Password Confirmation " + msg + ".");
+                     })
+
+                   }
+                   
+                   errorCheck(msgArr);
+                   clearForm;
                  },
-                 success: function (data) {
-                   location.reload();
+                 success: function () {
+                   setAcctInfo(acctInfo);
+                   next;
+                  }
+                })
+              }
+            }
+            request.send();
+        }
+        return getToken();
+  }
+}
+
+export function updateRequest(event, acctInfo, errorCheck, clearForm, setAcctInfo, next) {
+      
+  return dispatch => {
+    event.preventDefault();
+    
+    function getToken() {
+        var token =''
+        const request = new XMLHttpRequest();
+            request.open("GET", '/accounts/edit', true);
+            request.responseType = 'document';
+
+            request.onreadystatechange = () => {
+              if (request.readyState == 4 && request.status == 200 ) {
+                const formData = request.response;
+                const formInput = formData.getElementsByTagName('input');
+                token = formInput[1].value;
+                
+                const inputData = {
+                          authenticity_token: token,
+                          utf8: '✓',
+                          account: {
+                            registration_progress: acctInfo.registration_progress,
+                            plan_id: acctInfo.plan_id,
+                            email: acctInfo.email,
+                            current_password: acctInfo.password
+                          }
+                }
+      
+                $.ajax({
+                 type: 'PUT',
+                 url: 'http://localhost:3000/accounts',
+                 dataType: 'json',
+                 data: inputData,
+                 error: function (response) {
+                  const resJSON = response.responseJSON;
+                  const emailError = resJSON.errors['email']
+                  const pswError = resJSON.errors['password']
+                  const pswConfError = resJSON.errors['password_confirmation']
+                  
+                  console.log(resJSON);
+                  var msgArr = [];
+                   
+                   if (emailError) {
+                     emailError.forEach(function(msg) {
+                       msgArr.push("Email " + msg + ".");
+                     })
+                
+                   }
+                   if (pswError) {
+                      pswError.forEach(function(msg) {
+                        msgArr.push("Password " + msg + ".");
+                     })
+      
+                   }
+                   if (pswConfError) {
+                      pswConfError.forEach(function(msg) {
+                        msgArr.push("Password Confirmation " + msg + ".");
+                     })
+
+                   }
+                   
+                   errorCheck(msgArr);
+                   clearForm;
+                 },
+                 success: function () {
+                   setAcctInfo(acctInfo);
+                   next;
                   }
                 })
               }
