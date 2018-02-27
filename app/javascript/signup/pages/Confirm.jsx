@@ -1,14 +1,27 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Plan from './../components/Plan'; // Component to serve as container for plan data that has been set as state.plan in SignUp.jsx
 import PaymentForm from './../components/PaymentForm'; // Component to serve as container for srcInfo data **Payment Info**
 import { Card }  from './../components/Card'; // Component to serve as form to input srcInfo data **Payment Info**
-
+import { updateRequest } from './../actions/signupActions';
+import ConfirmForm from './../components/ConfirmForm'; 
+import PropTypes from 'prop-types';
 
 class Confirm extends Component { 
   constructor(props) {
      super(props);
-    
+     this.state = ({
+            errors: []
+     });
+     
      this.saveAndContinue = this.saveAndContinue.bind(this);
+     this.handleErrors = this.handleErrors.bind(this);
+  }
+   handleErrors(error) {
+    if (error) {
+      this.setState({ errors: error })
+      console.log(this.state.errors)
+    } 
   }
   
    // Func sets state.srcInfo and state.step of SignUp.jsx --- Funcs passed through props
@@ -23,8 +36,9 @@ class Confirm extends Component {
   
   render() {
     
+     const { updateRequest } = this.props;
      const registration_progress = this.props.registration_progress;
-     const nextStep = this.props.nextStep;
+     const nextStep = this.props.registration_progress + 1;
      const prevStep = this.props.prevStep;
      const plan = this.props.plan; 
      const acctInfo = this.props.acctInfo;
@@ -46,10 +60,19 @@ class Confirm extends Component {
             <div className='text-center form-header'>
               <h5>Enter your payment info.</h5>
             </div>
-            <div>{account.id}</div>
-            <div>{account.email}</div>
-            <div>{acctInfo.password}</div>
-            <div>{acctInfo.password_confirmation}</div> 
+            <ConfirmForm
+              acctInfo={acctInfo}
+              getStatus={this.props.getStatus}
+              setAcctInfo={this.props.setAcctInfo}
+              next={this.props.next}
+              updateRequest={updateRequest}
+              plan_id={plan.id}
+              registration_progress={nextStep}
+              handleErrors = {this.handleErrors} />
+              <div>{registration_progress}</div>
+               <div>{nextStep}</div>
+               <div>{prevStep}</div>
+
             <input type="primary" value='Edit' className='btn sign-up-btn' onClick={() => this.props.edit(5)} />
          </div>
           
@@ -72,5 +95,8 @@ class Confirm extends Component {
      );
    }
 }
+Confirm.propTypes = {
+  updateRequest: PropTypes.func.isRequired
+}
 
-export default Confirm;
+export default connect(null, { updateRequest })(Confirm);

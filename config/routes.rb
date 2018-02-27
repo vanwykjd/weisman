@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     get 'signup_form', to: 'accounts/registrations#new'
     get 'signup', to: 'accounts/registrations#signup'
     get 'registration_progress', to: 'accounts/registrations#signup_session'
+    get 'selected_plan', to: 'accounts/registrations#selected_plan'
   end
   
   

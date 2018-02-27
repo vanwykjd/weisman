@@ -66,9 +66,8 @@ export function registrationRequest(event, acctInfo, errorCheck, clearForm, getS
                    errorCheck(msgArr);
                    clearForm;
                  },
-                 success: function () {
+                 success: function (data) {
                    getStatus();
-                   setAcctInfo(acctInfo);
                    next();
                   }
                 })
@@ -80,13 +79,15 @@ export function registrationRequest(event, acctInfo, errorCheck, clearForm, getS
   }
 }
 
-export function updateRequest(event, acctInfo, errorCheck, clearForm, setAcctInfo, next) {
+export function updateRequest(event, updateInfo, errorCheck, clearForm, getStatus, setAcctInfo, next) {
       
   return dispatch => {
     event.preventDefault();
     
     function getToken() {
-        var token =''
+        var token = '';
+        var method = '';
+      
         const request = new XMLHttpRequest();
             request.open("GET", '/accounts/edit', true);
             request.responseType = 'document';
@@ -95,21 +96,24 @@ export function updateRequest(event, acctInfo, errorCheck, clearForm, setAcctInf
               if (request.readyState == 4 && request.status == 200 ) {
                 const formData = request.response;
                 const formInput = formData.getElementsByTagName('input');
-                token = formInput[1].value;
+                method = formInput[1].value;
+                token = formInput[2].value;
                 
                 const inputData = {
-                          authenticity_token: token,
                           utf8: '✓',
+                          _method: method,
+                          authenticity_token: token,
                           account: {
-                            registration_progress: acctInfo.registration_progress,
-                            plan_id: acctInfo.plan_id,
-                            email: acctInfo.email,
-                            current_password: acctInfo.password
+                            registration_progress: updateInfo.registration_progress,
+                            plan_id: updateInfo.plan_id,
+                            company_name: updateInfo.company_name,
+                            first_name: updateInfo.first_name,
+                            last_name: updateInfo.last_name
                           }
                 }
       
                 $.ajax({
-                 type: 'PUT',
+                 type: 'POST',
                  url: 'http://localhost:3000/accounts',
                  dataType: 'json',
                  data: inputData,
@@ -145,8 +149,8 @@ export function updateRequest(event, acctInfo, errorCheck, clearForm, setAcctInf
                    clearForm;
                  },
                  success: function () {
-                   setAcctInfo(acctInfo);
-                   next;
+                   getStatus();
+                   next();
                   }
                 })
               }

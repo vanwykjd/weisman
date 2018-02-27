@@ -7,9 +7,9 @@ class ConfirmForm extends React.Component {
     this.state = {
             registration_progress: this.props.registration_progress,
             plan_id: this.props.plan_id,
-            email: '',
-            password: '',
-            password_confirmation: ''
+            company_name: '',
+            first_name: '',
+            last_name: ''
       };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -27,8 +27,9 @@ class ConfirmForm extends React.Component {
     
    clearForm() {
     this.setState({
-        password: '',
-        password_confirmation: ''
+        company_name: '',
+        first_name: '',
+        last_name: ''
       })
    }
   
@@ -37,33 +38,35 @@ class ConfirmForm extends React.Component {
     const errorCheck = this.props.handleErrors;
     const clearForm = this.clearForm();
     const inputs = this.state;
+    const acctInfo = this.props.acctInfo;
     const setAcctInfo = this.props.setAcctInfo;
+    const getStatus = this.props.getStatus;
     const next = this.props.next;
-    this.props.registrationRequest(e, inputs, errorCheck, clearForm, setAcctInfo, next);
+    this.props.updateRequest(e, inputs, errorCheck, clearForm, getStatus, setAcctInfo, next);
    }
  
   
   render() { 
-    const email = this.state.email;
-    const password = this.state.password;
-    const password_confirmation = this.state.password_confirmation;
+    const company_name = this.state.company_name;
+    const first_name = this.state.first_name;
+    const last_name = this.state.last_name;
 
     return (
       <form onSubmit={this.handleSubmit}>
         <div className="form-group">
-          <input className='form-control' type='email' name='email' value={email} id='account_email' placeholder="Email" onChange={this.handleChange}/>
+          <input className='form-control' type='text' name='company_name' value={company_name} id='account_company_name' placeholder="Company Name" onChange={this.handleChange}/>
         </div>
         
         <div className="form-group">
-          <input className='form-control' type="password" name='password' value={password} id='account_password' placeholder="Password" onChange={this.handleChange}/>
+          <input className='form-control' type="text" name='first_name' value={first_name} id='account_first_name' placeholder="First Name" onChange={this.handleChange}/>
         </div>
         
         <div className="form-group">
-          <input className='form-control' type="password" name='password_confirmation' value={password_confirmation} id='account_password_confirmation' placeholder="Password Confirmation" onChange={this.handleChange}/>
+          <input className='form-control' type="text" name='last_name' value={last_name} id='account_last_name' placeholder="Last Name" onChange={this.handleChange}/>
         </div>
         
         <div className="form-group">
-          <input type="submit" name="commit" value="Sign up" className='btn sign-up-btn' />
+          <input type="submit" name="commit" value="Submit" className='btn sign-up-btn' />
         </div>
       </form>
     );

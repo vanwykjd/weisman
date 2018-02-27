@@ -63,8 +63,6 @@ class SignUp extends Component {
   }
   
 
-  
-
   getStatus() {
     const request = new XMLHttpRequest();
     
@@ -75,11 +73,12 @@ class SignUp extends Component {
       if (request.readyState === 4 && request.status == 200 ) {
         let data = JSON.parse(request.responseText);
         console.log('data', data);
-
+        const plan = JSON.parse(data.plan_id);
         this.setState({ 
           registration_progress: data.registration_progress,
           nextStep: data.registration_progress + 1,
           prevStep: data.registration_progress - 1,
+          plan: plan,
           account: data,
           
         });
@@ -87,9 +86,9 @@ class SignUp extends Component {
         console.log('NextStep :', this.state.nextStep);
         console.log('PrevStep: ', this.state.prevStep);
         console.log('Account: ', this.state.account);
+        console.log('Plan: ', this.state.account.plan_id);
       }
     }
-
     request.send();
   }
   
@@ -125,6 +124,7 @@ class SignUp extends Component {
     const editStep = step;
     const prevStep = this.state.registration_progress;
     this.setState({ registration_progress: editStep,
+                    nextStep: editStep + 1,
                     prevStep: prevStep });
   }
   
@@ -160,7 +160,10 @@ class SignUp extends Component {
                    plan={plan}
                    acctInfo={acctInfo}
                    srcInfo={srcInfo}
+                    
                    getStatus={this.getStatus}
+                   getPlan={this.getPlan}
+                    
                    setAcctInfo={this.setAcctInfo}
                   
                    next={this.next} 
@@ -168,7 +171,6 @@ class SignUp extends Component {
 
         case 3:
           return (<Confirm 
-                
                    registration_progress={registration_progress}
                    nextStep={nextStep}
                    prevStep={prevStep}
@@ -176,7 +178,11 @@ class SignUp extends Component {
                    acctInfo={acctInfo}
                    srcInfo={srcInfo}
                    account={account}
+                   
+                   getStatus={this.getStatus}
+                   getPlan={this.getPlan}
                     
+                   setAcctInfo={this.setAcctInfo}
                    setSrcInfo={this.setSrcInfo} 
                    
                     
@@ -192,6 +198,10 @@ class SignUp extends Component {
                    plan={plan}
                    acctInfo={acctInfo}
                    srcInfo={srcInfo}
+                   account={account}
+                   
+                   getStatus={this.getStatus}
+                   getPlan={this.getPlan}
                     
                    next={this.next} 
                    previous={this.previous}/>)
@@ -203,7 +213,9 @@ class SignUp extends Component {
                     plan={plan}
                     acctInfo={acctInfo}
                     srcInfo={srcInfo}
+                    
                     getStatus={this.getStatus}
+                    getPlan={this.getPlan}
                     
                     next={this.next} />)
       }   

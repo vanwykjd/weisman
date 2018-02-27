@@ -16,9 +16,10 @@ class Subscribe extends Component {
      const registration_progress = this.props.registration_progress;
      const nextStep = this.props.nextStep;
      const prevStep = this.props.prevStep;
-     const plan = this.props.plan;
-     const acctInfo = this.props.acctInfo.account;
-     const srcInfo = this.props.srcInfo; 
+     const plan = this.props.plan; 
+     const acctInfo = this.props.acctInfo;
+     const account = this.props.account;
+     const srcInfo = this.props.srcInfo;
    
      return (
         <div className='d-flex justify-content-center'>
@@ -31,7 +32,10 @@ class Subscribe extends Component {
          <div className='devise-form' style={{display: 'inline-block'}}>
             <div>Email: {acctInfo.email}</div>
             <div>Password: {acctInfo.password}</div>
-            <div>Password Conf: {acctInfo.password_conf}</div> 
+            <div>Password Conf: {acctInfo.password_conf}</div>
+            <div>Company Name: {account.company_name}</div>
+            <div>First Name: {account.first_name}</div>
+            <div>Last Name: {account.last_name}</div>
          </div>
          
          <div className='devise-form' style={{display: 'inline-block'}}>
