@@ -40,7 +40,7 @@ class RegisterForm extends React.Component {
     const getStatus = this.props.getStatus;
     const setAcctInfo = this.props.setAcctInfo;
     const next = this.props.next;
-    this.props.registrationRequest(e, inputs, errorCheck, clearForm, getStatus, setAcctInfo, next);
+    this.props.registerRequest(e, inputs, errorCheck, clearForm, getStatus, setAcctInfo, next);
    }
  
   
@@ -72,7 +72,7 @@ class RegisterForm extends React.Component {
 }
 
 RegisterForm.propTypes = {
-  registrationRequest: PropTypes.func.isRequired
+  registerRequest: PropTypes.func.isRequired
 }
 
 export default RegisterForm;

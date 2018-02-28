@@ -42,7 +42,7 @@ class ConfirmForm extends React.Component {
     const setAcctInfo = this.props.setAcctInfo;
     const getStatus = this.props.getStatus;
     const next = this.props.next;
-    this.props.updateRequest(e, inputs, errorCheck, clearForm, getStatus, setAcctInfo, next);
+    this.props.confirmRequest(e, inputs, errorCheck, clearForm, getStatus, setAcctInfo, next);
    }
  
   
@@ -74,7 +74,7 @@ class ConfirmForm extends React.Component {
 }
 
 ConfirmForm.propTypes = {
-  updateRequest: PropTypes.func.isRequired
+  confirmRequest: PropTypes.func.isRequired
 }
 
 export default ConfirmForm;

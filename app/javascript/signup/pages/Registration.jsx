@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import RegisterForm from './../components/RegisterForm'; // Component to serve as form to input acctInfo data
-import FlashMessages from './../components/FlashMessages';
-import { connect } from 'react-redux';
-import { registrationRequest } from './../actions/signupActions';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { registerRequest } from './../actions/registerActions';
+import RegisterForm from './../components/RegisterForm'; 
 
 
 class Registration extends React.Component {
@@ -13,7 +12,6 @@ class Registration extends React.Component {
             errors: []
       });
  
-     this.saveAndContinue = this.saveAndContinue.bind(this);
      this.handleErrors = this.handleErrors.bind(this);
   }
   
@@ -24,14 +22,8 @@ class Registration extends React.Component {
     } 
   }
   
-  
-  saveAndContinue(e) {
-    e.preventDefault()
-      this.props.next()
-  }
- 
   render() {
-    const { registrationRequest } = this.props;
+    const { registerRequest } = this.props;
     const registration_progress = this.props.registration_progress;
     const plan_id = this.props.plan.id; 
     const nextStep = this.props.nextStep;
@@ -57,7 +49,7 @@ class Registration extends React.Component {
           getStatus={this.props.getStatus}
           setAcctInfo={this.props.setAcctInfo}
           next={this.props.next}
-          registrationRequest={registrationRequest}
+          registerRequest={registerRequest}
           plan_id={plan_id}
           registration_progress={nextStep}
           handleErrors = {this.handleErrors} />
@@ -79,7 +71,7 @@ class Registration extends React.Component {
 }
 
 Registration.propTypes = {
-  registrationRequest: PropTypes.func.isRequired
+  registerRequest: PropTypes.func.isRequired
 }
 
-export default connect(null, { registrationRequest })(Registration);
+export default connect(null, { registerRequest })(Registration);

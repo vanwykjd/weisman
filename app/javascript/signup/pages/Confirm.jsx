@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Plan from './../components/Plan'; // Component to serve as container for plan data that has been set as state.plan in SignUp.jsx
-import PaymentForm from './../components/PaymentForm'; // Component to serve as container for srcInfo data **Payment Info**
-import { Card }  from './../components/Card'; // Component to serve as form to input srcInfo data **Payment Info**
-import { updateRequest } from './../actions/signupActions';
-import ConfirmForm from './../components/ConfirmForm'; 
 import PropTypes from 'prop-types';
+import { confirmRequest } from './../actions/confirmActions'; 
+import Plan from './../components/Plan';
+import ConfirmForm from './../components/ConfirmForm';
+import PaymentForm from './../components/PaymentForm'; 
+import Card from './../components/Card'; 
 
 class Confirm extends Component { 
   constructor(props) {
@@ -27,8 +27,7 @@ class Confirm extends Component {
    // Func sets state.srcInfo and state.step of SignUp.jsx --- Funcs passed through props
   saveAndContinue(e) {
     e.preventDefault()
-      this.props.setSrcInfo(this.props.card)
-    
+      this.props.setSrcInfo(this.props.card) 
       this.props.next()
   }
   
@@ -36,7 +35,7 @@ class Confirm extends Component {
   
   render() {
     
-     const { updateRequest } = this.props;
+     const { confirmRequest } = this.props;
      const registration_progress = this.props.registration_progress;
      const nextStep = this.props.registration_progress + 1;
      const prevStep = this.props.prevStep;
@@ -65,13 +64,10 @@ class Confirm extends Component {
               getStatus={this.props.getStatus}
               setAcctInfo={this.props.setAcctInfo}
               next={this.props.next}
-              updateRequest={updateRequest}
+              confirmRequest={confirmRequest}
               plan_id={plan.id}
               registration_progress={nextStep}
               handleErrors = {this.handleErrors} />
-              <div>{registration_progress}</div>
-               <div>{nextStep}</div>
-               <div>{prevStep}</div>
 
             <input type="primary" value='Edit' className='btn sign-up-btn' onClick={() => this.props.edit(5)} />
          </div>
@@ -96,7 +92,7 @@ class Confirm extends Component {
    }
 }
 Confirm.propTypes = {
-  updateRequest: PropTypes.func.isRequired
+  confirmRequest: PropTypes.func.isRequired
 }
 
-export default connect(null, { updateRequest })(Confirm);
+export default connect(null, { confirmRequest })(Confirm);
