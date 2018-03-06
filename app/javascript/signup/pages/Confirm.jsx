@@ -69,7 +69,6 @@ class Confirm extends Component {
               registration_progress={nextStep}
               handleErrors = {this.handleErrors} />
 
-            <input type="primary" value='Edit' className='btn sign-up-btn' onClick={() => this.props.edit(5)} />
          </div>
           
           

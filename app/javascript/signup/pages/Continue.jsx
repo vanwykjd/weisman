@@ -26,19 +26,10 @@ class Continue extends Component {
 
 
          <div className='devise-form'>
-           <h2>Continue</h2>
+          <h4>Begin your Signup Process.</h4>
            
-            <div>{registration_progress}</div>
-            <div>{nextStep}</div>
-            <div>{prevStep}</div>
-
-            <div>{acctInfo.email}</div>
-            <div>{acctInfo.password}</div>
-            <div>{acctInfo.password_confirmation}</div> 
-         
-        
           <div className='form-group'>
-            <input type="primary" value='Continue' className='btn sign-up-btn' onClick={this.saveAndContinue} />
+            <input type="primary" value='Start' className='btn sign-up-btn' onClick={this.saveAndContinue} />
           </div>
          </div>
       

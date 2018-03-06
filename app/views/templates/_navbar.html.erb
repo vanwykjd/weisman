@@ -1,0 +1,30 @@
+<nav class="navbar navbar-expand-md navbar-dark sticky-top">
+    
+    <%= link_to image_tag("Barweiser_Full_Wht.png"), root_path, class: 'navbar-brand' %>
+  
+    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="main-nav">
+        
+        <ul class="navbar-nav ml-auto">
+          <% if account_signed_in? %>
+              <li class="nav-item">
+                  <%= link_to "SIGN OUT", destroy_account_session_path, :method => :get, class: 'nav-link' %>
+              </li>
+          <%else%>
+              <li class="nav-item">
+                  <%= link_to "SIGN IN", new_account_session_path, class: 'nav-link' %>
+              </li>
+          
+          <%end%>
+              <li class="nav-item menu-footer d-md-none">
+                  <%= link_to image_tag("BarweiserSM_Blk.png"), root_path, class: 'nav-link' %>
+              </li>
+         
+        </ul>
+        
+    </div>
+    
+</nav>

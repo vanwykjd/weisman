@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   
+  namespace :accounts do
+    get 'dashboard/show'
+  end
+
   namespace :accounts do    
     get 'signup/new'
     get 'signup/edit'
@@ -19,7 +23,7 @@ Rails.application.routes.draw do
   
   
   authenticated :accounts do
-    root to: 'accounts#show', as: :authenticated_root
+    root to: 'accounts/dashboard#show', as: :authenticated_root
   end
   
   root to: "main#index"
